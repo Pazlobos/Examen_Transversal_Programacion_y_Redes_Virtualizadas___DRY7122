@@ -20,21 +20,21 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
 
-# Inicializar Base de Datos e Inyectar los integrantes reales de tu grupo
+# Inicializar Base de Datos
 def inicializar_db():
     with app.app_context():
         db.create_all()
         
-        # === INTEGRANTES DEL GRUPO REALES ===
+        # === INTEGRANTES DEL GRUPO ===
         integrantes = ["maria_lobos", "tomas_sandretti", "johans_coye"]
         
         for integrante in integrantes:
             usuario_existente = Usuario.query.filter_by(nombre=integrante).first()
             if not usuario_existente:
-                # Contraseña de ejemplo obligatoria para la prueba (puedes cambiarla si deseas)
+                # Contraseña 
                 password_plana = "Duoc2026!"
                 
-                # Crear el HASH seguro requerido utilizando bcrypt (Rúbrica de Evaluación)
+                # Crear el HASH seguro requerido utilizando bcrypt
                 salt = bcrypt.gensalt()
                 hashed_pw = bcrypt.hashpw(password_plana.encode('utf-8'), salt).decode('utf-8')
                 
@@ -55,7 +55,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
     
-    # Buscar el usuario de forma respectiva en la BD SQL
+    # Buscar el usuario de forma respectiva en la BD
     usuario = Usuario.query.filter_by(nombre=username).first()
     
     # Comparación segura del hash mediante la librería bcrypt
@@ -68,5 +68,5 @@ if __name__ == "__main__":
     inicializar_db()
     print("\nServidor Flask iniciado de forma correcta.")
     print("Escuchando peticiones en el puerto obligatorio: 5800")
-    # Ejecución obligatoria en el puerto 5800 solicitado en la evaluación
+    # Ejecución obligatoria en el puerto 5800
     app.run(host='0.0.0.0', port=5800, debug=True)

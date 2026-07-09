@@ -105,7 +105,7 @@ def main():
             print(f"Duración estimada: {horas} horas y {minutos} minutos")
             print("---------------------------------------------------")
             
-            # --- SECCIÓN NARRATIVA PASO A PASO REAL ---
+            # --- SECCIÓN NARRATIVA PASO A PASO ---
             print("\nNARRATIVA DETALLADA EN VIVO:")
             print("===================================================")
             

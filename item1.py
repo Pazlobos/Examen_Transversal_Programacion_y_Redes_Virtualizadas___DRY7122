@@ -2,7 +2,7 @@
 from tabulate import tabulate
 
 def mostrar_integrantes():
-    # Modifica estos datos con los nombres reales de tu grupo
+    # 
     integrantes = [
         ["Nombre", "Apellido"],
         ["Maria Paz", "Lobos"],

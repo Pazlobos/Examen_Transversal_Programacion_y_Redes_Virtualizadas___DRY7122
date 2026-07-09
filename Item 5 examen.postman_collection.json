@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "dd6f111b-fb43-4fb3-a07a-d2c2c3d9aa12",
+		"name": "Item 5 examen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface/Loopback=11",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "C1sco12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "developer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/yang-data+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/yang-data+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface/Loopback=11",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"56",
+						"101"
+					],
+					"path": [
+						"restconf",
+						"data",
+						"Cisco-IOS-XE-native:native",
+						"interface",
+						"Loopback=11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface/Loopback=22",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "C1sco12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "developer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/yang-data+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/yang-data+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Cisco-IOS-XE-native:Loopback\": {\n    \"name\": 22,\n    \"shutdown\": [null],\n    \"ip\": {\n      \"address\": {\n        \"primary\": {\n          \"address\": \"22.22.22.22\",\n          \"mask\": \"255.255.255.255\"\n        }\n      }\n    }\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface/Loopback=22",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"56",
+						"101"
+					],
+					"path": [
+						"restconf",
+						"data",
+						"Cisco-IOS-XE-native:native",
+						"interface",
+						"Loopback=22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "C1sco12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "developer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/yang-data+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/yang-data+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://192.168.56.101/restconf/data/Cisco-IOS-XE-native:native/interface",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"56",
+						"101"
+					],
+					"path": [
+						"restconf",
+						"data",
+						"Cisco-IOS-XE-native:native",
+						"interface"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
