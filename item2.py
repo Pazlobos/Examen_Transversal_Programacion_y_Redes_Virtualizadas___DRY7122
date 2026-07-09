@@ -2,19 +2,19 @@
 import requests
 
 def obtener_coordenadas(ciudad):
-    """Obtiene latitud y longitud de una ciudad usando el geocodificador de OpenStreetMap."""
+    """Obtiene la latitud y longitud de una ciudad usando el geocodificador libre de OpenStreetMap."""
     url = f"https://nominatim.openstreetmap.org/search?q={ciudad}&format=json&limit=1"
     headers = {'User-Agent': 'ExamenTransversal_DRY7122_App'}
-    response = requests.get(url, headers=headers)
     
+    response = requests.get(url, headers=headers)
     if response.status_code == 200 and len(response.json()) > 0:
         data = response.json()[0]
         return float(data['lat']), float(data['lon']), data['display_name']
     return None
 
 def calcular_ruta(lat_origen, lon_origen, lat_destino, lon_destino, perfil):
-    """Calcula la distancia y duración usando el motor de rutas de OpenStreetMap (OSRM)."""
-    # Importante: steps=true le dice a OSRM que devuelva las indicaciones paso a paso
+    """Calcula la distancia, duración e indicaciones detalladas usando el motor OSRM de OpenStreetMap."""
+    # steps=true obliga a la API a devolver la narrativa detallada de cada calle
     url = f"http://router.project-osrm.org/route/v1/{perfil}/{lon_origen},{lat_origen};{lon_destino},{lat_destino}?overview=false&steps=true"
     response = requests.get(url)
     
@@ -23,7 +23,7 @@ def calcular_ruta(lat_origen, lon_origen, lat_destino, lon_destino, perfil):
     return None
 
 def traducir_maniobra(tipo, modificador):
-    """Traduce los tipos de maniobra de la API OSRM al español para la narrativa."""
+    """Traduce las maniobras técnicas en inglés de la API a un español fluido."""
     traducciones = {
         "turn-right": "Gira a la derecha",
         "turn-left": "Gira a la izquierda",
@@ -67,21 +67,21 @@ def main():
         perfil = perfiles.get(opcion, "driving")
         medio = transportes.get(opcion, "Automóvil")
 
-        print(f"\nBuscando coordenadas para {origen} y {destino}...")
+        print(f"\nBuscando coordenadas en vivo para {origen} y {destino}...")
         coord_origen = obtener_coordenadas(f"{origen}, Chile")
         coord_destino = obtener_coordenadas(f"{destino}, Argentina")
 
         if not coord_origen or not coord_destino:
-            print("No se pudieron encontrar las ubicaciones exactas. Intente nuevamente.")
+            print("❌ No se pudieron encontrar las ubicaciones en OpenStreetMap. Intente nuevamente.")
             continue
 
         lat_o, lon_o, name_o = coord_origen
         lat_d, lon_d, name_d = coord_destino
 
-        print(f"Desde: {name_o}")
-        print(f"Hasta: {name_d}")
+        print(f"\n📍 Desde: {name_o}")
+        print(f"📍 Hasta: {name_d}")
 
-        # Obtener datos de la ruta
+        # Realizar la consulta de ruta real a la API
         ruta_data = calcular_ruta(lat_o, lon_o, lat_d, lon_d, perfil)
 
         if ruta_data and "routes" in ruta_data and len(ruta_data["routes"]) > 0:
@@ -90,14 +90,14 @@ def main():
             distancia_metros = ruta["distance"]
             duracion_segundos = ruta["duration"]
 
-            # Conversiones principales
+            # Conversiones matemáticas requeridas en la rúbrica
             km = distancia_metros / 1000
             millas = km * 0.621371
             
             horas = int(duracion_segundos // 3600)
             minutos = int((duracion_segundos % 3600) // 60)
 
-            # Mostrar Resumen Ejecutivo
+            # Mostrar Resumen
             print("\n---------------- RESUMEN DEL VIAJE ----------------")
             print(f"Medio de transporte: {medio}")
             print(f"Distancia en Kilómetros: {km:.2f} km")
@@ -105,23 +105,20 @@ def main():
             print(f"Duración estimada: {horas} horas y {minutos} minutos")
             print("---------------------------------------------------")
             
-            # --- NUEVA SECCIÓN DE NARRATIVA PASO A PASO ---
-            print("\nNARRATIVA DETALLADA DEL VIAJE:")
+            # --- SECCIÓN NARRATIVA PASO A PASO REAL ---
+            print("\nNARRATIVA DETALLADA EN VIVO:")
             print("===================================================")
             
-            # Recorrer las piernas y tramos de la ruta (Steps)
             contador_paso = 1
             for leg in ruta["legs"]:
                 for step in leg["steps"]:
-                    # Extraer información de la maniobra
-                    maniobra = step["maneuver"]
-                    tipo = maniobra["type"]
-                    modificador = maniobra.get("modifier", "")
+                    tipo = step["maneuver"]["type"]
+                    modificador = step["maneuver"].get("modifier", "")
                     
-                    # Traducir la acción a un español legible
+                    # Traducir acción
                     accion = traducir_maniobra(tipo, modificador)
                     
-                    # Nombre de la calle/ruta por la que se transita
+                    # Extraer calle real de los mapas
                     calle = step.get("name", "")
                     calle_str = f" por '{calle}'" if calle else " por la vía asignada"
                     
@@ -132,7 +129,6 @@ def main():
                     else:
                         dist_str = f"durante {int(dist_tramo_metros)} metros"
                     
-                    # Evitar pasos irrelevantes que vengan vacíos en la API
                     if tipo == "arrive":
                         print(f" Paso {contador_paso}: Llegada a tu destino final en {destino}.")
                     else:
@@ -142,7 +138,7 @@ def main():
                     
             print("===================================================")
         else:
-            print("No se pudo calcular una ruta terrestre válida entre estos dos puntos con el transporte seleccionado.")
+            print("❌ La API no pudo trazar una ruta terrestre directa entre estos puntos.")
 
 if __name__ == "__main__":
     main()
