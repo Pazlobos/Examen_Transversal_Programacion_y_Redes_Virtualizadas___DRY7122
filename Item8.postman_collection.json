@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "659df90c-da32-4010-8068-7b864b931a16",
+		"name": "Item8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://10.10.20.90:443/dataservice/j_security_check",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "j_username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "j_password",
+							"value": "C1sco12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://10.10.20.90:443/dataservice/j_security_check",
+					"protocol": "https",
+					"host": [
+						"10",
+						"10",
+						"20",
+						"90"
+					],
+					"port": "443",
+					"path": [
+						"dataservice",
+						"j_security_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://10.10.20.90:443/dataservice/client/token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://10.10.20.90:443/dataservice/client/token",
+					"protocol": "https",
+					"host": [
+						"10",
+						"10",
+						"20",
+						"90"
+					],
+					"port": "443",
+					"path": [
+						"dataservice",
+						"client",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://10.10.20.90:443/dataservice/device/monitor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "4F4C46A4E1E31DCEAC65388E0605622D9E70D826D9B1D6D2F33D9CD242E37C948BFA57B439A7C85DBD8447CF777E24A6AB10",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://10.10.20.90:443/dataservice/device/monitor",
+					"protocol": "https",
+					"host": [
+						"10",
+						"10",
+						"20",
+						"90"
+					],
+					"port": "443",
+					"path": [
+						"dataservice",
+						"device",
+						"monitor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://10.10.20.90:443/dataservice/device/interface?deviceId=10.0.0.1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "4F4C46A4E1E31DCEAC65388E0605622D9E70D826D9B1D6D2F33D9CD242E37C948BFA57B439A7C85DBD8447CF777E24A6AB10",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": {\n    \"condition\": \"AND\",\n    \"rules\": [\n      {\n        \"field\": \"entry_time\",\n        \"operator\": \"last_n_hours\",\n        \"value\": [\n          \"2\"\n        ]\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://10.10.20.90:443/dataservice/device/interface?deviceId=10.0.0.1",
+					"protocol": "https",
+					"host": [
+						"10",
+						"10",
+						"20",
+						"90"
+					],
+					"port": "443",
+					"path": [
+						"dataservice",
+						"device",
+						"interface"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "10.0.0.1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
